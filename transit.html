@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Get Public Transit Options</title>
+</head>
+<body>
+  <div id="map" style="height: 400px;"></div>
+  <script>
+    function initMap() {
+      var directionsService = new google.maps.DirectionsService();
+      var directionsRenderer = new google.maps.DirectionsRenderer();
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 14,
+        center: { lat: 40.7128, lng: -73.9352 }
+      });
+      directionsRenderer.setMap(map);
+
+      var request = {
+        origin: 'Brooklyn, NY',
+        destination: 'Queens, NY',
+        travelMode: 'TRANSIT'
+      };
+
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+            console.log(result);
+          directionsRenderer.setDirections(result);
+        } else {
+          document.getElementById('result').innerText = 'Error occurred: ' + status;
+        }
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBEQ_eP21C7udKZMn4L3V6HgiwxwK8DGqI&callback=initMap" async defer></script>
+</body>
+</html>
